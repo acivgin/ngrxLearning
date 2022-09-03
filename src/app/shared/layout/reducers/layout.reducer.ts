@@ -7,17 +7,15 @@ export interface LayoutState {
   searchValue: string;
 }
 
-const INITIAL_LAYOUT_STATE: LayoutState = {
+const INITIAL_STATE: LayoutState = {
   searchValue: '',
 };
 
 export const appReducer = createReducer(
-  INITIAL_LAYOUT_STATE,
+  INITIAL_STATE,
   on(LayoutActions.searchedForProduct, (state, { searchValue }) => ({
-    ...state,
     searchValue,
-  })),
-  on(LayoutActions.reset, () => INITIAL_LAYOUT_STATE)
+  }))
 );
 
-export const searchValueSidenav = (state: LayoutState) => state.searchValue;
+export const selectSearchValue = (state: LayoutState) => state.searchValue;

@@ -31,14 +31,15 @@ export interface State {
  * These reducer functions are called with each dispatched action
  * and the current or initial state and return a new immutable state.
  */
-export const LAYOUT_REDUCERS = new InjectionToken<
-  ActionReducerMap<State, Action>
->('Root reducers token', {
-  factory: () => ({
-    [fromLayout.layoutFeatureKey]: fromLayout.appReducer,
-    router: fromRouter.routerReducer,
-  }),
-});
+export const APP_REDUCERS = new InjectionToken<ActionReducerMap<State, Action>>(
+  'App reducers token',
+  {
+    factory: () => ({
+      [fromLayout.layoutFeatureKey]: fromLayout.appReducer,
+      router: fromRouter.routerReducer,
+    }),
+  }
+);
 
 // console.log all actions
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
@@ -64,5 +65,5 @@ export const selectLayoutState = createFeatureSelector<
 
 export const selectSearchStateValue = createSelector(
   selectLayoutState,
-  fromLayout.searchValueSidenav
+  fromLayout.selectSearchValue
 );

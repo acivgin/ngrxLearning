@@ -1,16 +1,22 @@
-import { environment } from './../environments/environment.prod';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './shared/layout/layout.module';
-import { appReducer } from './shared/layout/reducers/layout.reducer';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { LAYOUT_REDUCERS } from './store/reducers';
+import { APP_REDUCERS } from './store/reducers';
+import { localStorageSync } from 'ngrx-store-localstorage';
+
+export function localStorageSyncReducer(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return localStorageSync({ keys: ['layout'], rehydrate: true })(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +24,7 @@ import { LAYOUT_REDUCERS } from './store/reducers';
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
-    StoreModule.forRoot(LAYOUT_REDUCERS),
+    StoreModule.forRoot(APP_REDUCERS, { metaReducers }),
     /**
      * @ngrx/router-store keeps router state up-to-date in the store.
      */
