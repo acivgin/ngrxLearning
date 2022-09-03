@@ -22,7 +22,7 @@ import { InjectionToken } from '@angular/core';
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  [fromLayout.layoutFeatureKey]: fromLayout.LayoutState;
+  [fromLayout.layoutFeatureKey]: fromLayout.State;
   router: fromRouter.RouterReducerState<any>;
 }
 
@@ -58,10 +58,9 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 /**
  * Layout Reducers
  */
-export const selectLayoutState = createFeatureSelector<
-  State,
-  fromLayout.LayoutState
->(fromLayout.layoutFeatureKey);
+export const selectLayoutState = createFeatureSelector<State, fromLayout.State>(
+  fromLayout.layoutFeatureKey
+);
 
 export const selectSearchStateValue = createSelector(
   selectLayoutState,

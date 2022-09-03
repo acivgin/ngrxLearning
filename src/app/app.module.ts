@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,14 +9,8 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_REDUCERS } from './store/reducers';
-import { localStorageSync } from 'ngrx-store-localstorage';
-
-export function localStorageSyncReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
-  return localStorageSync({ keys: ['layout'], rehydrate: true })(reducer);
-}
-const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +18,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
-    StoreModule.forRoot(APP_REDUCERS, { metaReducers }),
+    StoreModule.forRoot(APP_REDUCERS),
     /**
      * @ngrx/router-store keeps router state up-to-date in the store.
      */
@@ -34,6 +28,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
       // In a production build you would want to disable the Store Devtools
       // logOnly: environment.production,
     }),
+    EffectsModule.forRoot([]),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

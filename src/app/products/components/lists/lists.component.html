@@ -1,1 +1,15 @@
+<span
+  >Search
+  <input
+    #searchField
+    type="text"
+    (keyup)="searchFieldChanged(searchField.value)"
+  />
+</span>
 <p>You searched for TERM: {{ searchValue }}</p>
+
+<div *ngFor="let product of products">
+  <h3>{{ product.volumeInfo.title }}</h3>
+  <p>{{ product.volumeInfo.subtitle }}</p>
+  <img [src]="product.volumeInfo?.imageLinks?.smallThumbnail" />
+</div>
